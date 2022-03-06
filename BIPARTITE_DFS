@@ -1,0 +1,28 @@
+Can color the graph with 2 color without same adjacent color.
+bool bipartiteDfs(int node, vector<int> adj[], int color[]) {
+    for(auto it : adj[node]) {
+        if(color[it] == -1) {
+            color[it] = 1 - color[node];
+            if(!bipartiteDfs(it, adj, color)) {
+                return false; 
+            }
+        } else if(color[it] == color[node]) return false; 
+    }
+    return true; 
+}
+bool checkBipartite(vector<int> adj[], int n) {
+    int color[n];
+    memset(color, -1, sizeof color); 
+    for(int i = 0;i<n;i++) {
+        if(color[i] == -1) {
+            color[i] = 1;
+            if(!bipartiteDfs(i, adj, color)) {
+                return false;
+            }
+        } 
+    }
+    return true; 
+}
+Time Complexity: O(V + E), since in its whole, it is a DFS implementation, V – vertices; E – edges;
+
+Space Complexity: O(V), because, apart from the graph, we maintain a color array.
