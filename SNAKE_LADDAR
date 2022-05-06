@@ -1,36 +1,48 @@
-int minThrow(int N, int arr[]){
-        int moves[31];
-        bool vis[31];
-        memset(moves, -1, sizeof(moves));
-        memset(vis, false, sizeof(vis));
-        for(int i = 0;i < 2*N;i += 2)
-            moves[arr[i]] = arr[i+1];
-        
-        queue<pair<int, int>> q;
-        pair<int, int> p;
-        q.push({1, 0});
-        vis[1] = true;
-        int ans=0;
-        while(!q.empty()){
-    		p = q.front();
-    		int ii = q.front().first;
-    		int ss = q.front().second;
-    		ans =ss;
-    		if(ii == 30)
-    		break;
-    		q.pop();                                           TC O(N) TOTAL NUMBER OF CELLS
-    		for(int i = ii+1;i <= ii+6 && i <= 30;i++){
-    			if(!vis[i]){
-    				//pp.second = ss+1;
-    				vis[i] = true;
-    				if(moves[i] != -1)
-    					//pp.first = moves[i];
-    					q.push({moves[i],ss+1});
-    				else
-    				    //pp.first = i;
-    				    q.push({i,ss+1});
-    				//q.push(pp);
-    			}
-    		}
-    	}
-    	return ans;
+int Solution::snakeLadder(vector<vector<int> > &A, vector<vector<int> > &B) {
+    vector<int> moves(101,-1);
+    bool visited[101]={false};
+    for(int i=0;i<A.size(); i++)
+    {
+        moves[A[i][0]]= A[i][1];
+    }
+    for(int i=0; i<B.size(); i++)
+    {
+        moves[B[i][0]]=B[i][1];
+    }
+    queue<pair<int,int>> q;
+    q.push({1,0});
+    visited[1]=true;
+    int ans=-1;
+    int steps;
+    int start;
+    while(q.empty()==false)
+    {
+        start= q.front().first;               // TC O(N) N= TOTAL NUMBER OF CELLS
+        steps= q.front().second;
+        ans=steps;
+        q.pop();
+        if(start==100)
+        {
+            break;
+        }
+        for(int i=start+1; i<=start+6 && i<=100; i++)
+        {
+            if(visited[i]==false)
+            {
+                visited[i]=true;
+                if(moves[i]!=-1)
+                {
+                    q.push({moves[i],steps+1});
+                }
+                else{
+                    q.push({i,steps+1});
+                }
+            }
+        }
+    }
+    if(start==100)
+    {
+        return ans;
+    }
+    return -1;
+}
