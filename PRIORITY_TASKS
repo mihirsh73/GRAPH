@@ -1,0 +1,39 @@
+ bool dfs(vector<int> adj[],int s, bool visited[], int parent)
+    {
+        visited[s]=true;
+        for(auto x: adj[s])
+        {
+            if(visited[x]==false)
+            {
+                if(dfs(adj,x,visited,s)==true)               cycle detection in undirected graph
+                {
+                    return true;
+                }
+            }
+            else if(x!=parent)
+            {
+                return true;
+            }
+        }
+        return false;
+    }                                                                        TC O(V+E) sc O(N)
+	bool isPossible(int N, vector<pair<int, int> >& prerequisites) {
+	   vector<int> adj[N];
+	   for(int i=0; i<prerequisites.size(); i++)
+	   {
+	       pair<int, int> p= prerequisites[i];
+	       adj[p.second].push_back(p.first);
+	   }
+	   bool visited[N]={false};
+	   for(int i=0; i<N; i++)
+	   {
+	       if(visited[i]==false)
+	       {
+	           if(dfs(adj,i,visited,-1)==true)
+	           {
+	               return false;
+	           }
+	       }
+	   }
+	   return true;
+	}
