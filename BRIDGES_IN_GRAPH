@@ -1,0 +1,41 @@
+ void dfs(vector<int> adj[], int s, int parent, int visited[], int it[], int st[], int &flag, int c, int d, int &timer)
+    {
+        visited[s]=true;
+        it[s]=st[s]=timer++;
+        for(auto x: adj[s])
+        {
+            if(x==parent) continue;
+            if(visited[x]==-1)
+            {
+                dfs(adj,x,s,visited,it,st,flag,c,d,timer);                  
+                st[s]= min(st[s],st[x]);
+                if(st[x]>it[s])                      // if smallest time of adjacent > inertion time of source 
+                {
+                    if(s==c && x==d){
+                        flag=1;
+                    }
+                }
+                else{
+                    st[s]=min(st[s], it[x]);
+                }
+            }
+        }
+        
+    }
+    int isBridge(int V, vector<int> adj[], int c, int d) 
+    {
+        int visited[V]={-1};
+        int it[V]={-1};                    // insertion time
+        int st[V]={-1};          // shortest time in all the ajacent
+        int flag=0;
+        int timer=0;
+        for(int i=0; i<V; i++)
+        {
+            if(visited[i]==-1)
+            {
+                dfs(adj,i,-1,visited,it,st,flag,c,d, timer);
+            }
+        }
+        return flag;
+    }
+    // TC O(V+E) SC O(N)
