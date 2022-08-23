@@ -1,0 +1,52 @@
+void dfs(vector<int> adj[], int s, int parent, int visited[],int it[], int lt[], int ap[], int &timer)
+  {
+      visited[s]=1;
+      it[s]=lt[s]=timer++;
+      int child=0;
+      for(auto x: adj[s])
+      { 
+          if(x==parent)continue;
+          
+          child++;
+          if(visited[x]==-1)
+          {
+              dfs(adj,x,s,visited,it,lt,ap,timer);
+              lt[s]= min(lt[s],lt[x]);
+              if(lt[x]>=it[s] && parent!=-1)                       // TC O(V+E) SC O(V)
+              {
+                  ap[s]=1;
+              }
+              else{
+                  lt[x]=min(lt[x],it[x]);
+              }
+          }
+      }
+      if(parent==-1 && child>1)
+      {
+          ap[s]=1;
+      }
+  }
+    vector<int> articulationPoints(int V, vector<int>adj[]) {
+        int ap[V]={-1};
+        int it[V];
+        int lt[V];
+        int visited[V]={-1};
+        int timer=0;
+        for(int i=0; i<V; i++)
+        {
+            if(visited[i]==-1)
+            {
+                dfs(adj,i,-1,visited,it,lt,ap,timer);
+            }
+        }
+        vector<int> res;
+        for(int i=0; i<V; i++)
+        {
+            if(ap[i]==1)
+            {
+                res.push_back(i);
+           
+            }
+        }
+        return res;
+    }
