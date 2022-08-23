@@ -1,0 +1,52 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+public:
+    int wordLadderLength(string startWord, string targetWord, vector<string>& wordList) {
+        if(startWord==targetWord) return 0;
+        int level=0;
+        unordered_set<string> st;
+        for(int i=0; i<wordList.size(); i++)
+        {
+            st.insert(wordList[i]);
+        }
+        if(st.find(targetWord)==st.end()) return 0;
+        queue<string> q;
+        q.push(startWord);
+        while(q.empty()==false)
+        {
+            int n = q.size();
+            level++;
+            for(int i=0; i<n; i++)
+            {
+                string s1 = q.front();
+                q.pop();
+                int len= s1.size();
+                for(int j=0; j<len; j++)
+                {
+                    char org = s1[j];
+                    for(char c='a'; c<='z'; c++)
+                    {
+                        s1[j]=c;
+                        if(s1==targetWord)
+                        {
+                            return level+1;
+                        }
+                        if(st.find(s1)!=st.end())
+                        {
+                            q.push(s1);
+                            st.erase(s1);                // remove because using as visited TC O(N^2*M) N= SIZE OF STRING ARRAY M= AVERAGE LENGTH OF STRING SC O(N^M)
+                        } 
+                    }
+                    s1[j]=org;
+                }
+            }
+        }
+        return 0;
+        
+    }
+};
+
