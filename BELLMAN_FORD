@@ -1,0 +1,35 @@
+// only word for if negative cycle not present also find negative cycle , if undirected graph make it directed
+int bellmonFord(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+      vector<int> d(n+1,1e9);
+    d[src]=0;
+    
+    for(int i=1; i<n; i++)
+    {
+        for(int j=0; j<m; j++)                 // do (n-1) times relaxation because idf longest path take n-1 nodes TC (O(N*M)) SC O(N)
+        {
+            int u= edges[j][0];
+            int v= edges[j][1];
+            int w= edges[j][2];
+            if(d[u]!=1e9 && (d[u]+w)<d[v])
+            {
+                d[v]=d[u]+w;
+            }
+        }
+    }
+    return d[dest];
+    
+    // for finding negative cycle do one more time relaxaxtion  after doing one more time relaxation of values in d vectore decreases then negative is present
+    for(int j=0; j<m; j++)
+    {
+    int u= edges[j][0];
+            int v= edges[j][1];
+            int w= edges[j][2];
+            if(d[v]> w+ d[u])
+            {
+                cout<<"NEgative cycle present"<<endl;
+                break;
+            }
+    
+    }
+
+}
