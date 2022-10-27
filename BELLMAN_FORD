@@ -5,7 +5,7 @@ int bellmonFord(int n, int m, int src, int dest, vector<vector<int>> &edges) {
     
     for(int i=1; i<n; i++)
     {
-        for(int j=0; j<m; j++)                 // do (n-1) times relaxation because idf longest path take n-1 nodes TC (O(N*M)) SC O(N)
+        for(int j=0; j<m; j++)                 // do (n-1) times relaxation because in worst case you will take n-1 edges from first to last node TC (O(N*M)) SC O(N) // shortest path from source to everynode
         {
             int u= edges[j][0];                  // real life example electric car during downhill regen so using negative energy
             int v= edges[j][1];
