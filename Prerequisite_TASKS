@@ -1,0 +1,45 @@
+bool isPossible(int n, vector<pair<int, int> >& prerequisites) {
+	    vector<int> adj[n];
+      vector<int> res;
+      int indegree[n];
+        for(int i=0; i<n; i++)
+        {
+            indegree[i]=0;
+        }
+      for(int i=0; i< prerequisites.size(); i++)
+      {
+          pair<int,int> p=prerequisites[i];
+          adj[p.second].push_back( p.first);
+          indegree[p.first]++;
+      }
+      queue<int> q;
+      for(int i=0; i<n; i++)
+      {
+          if(indegree[i]==0)
+          {
+              q.push(i);
+          }
+      }
+      if(q.empty()==true)
+      {
+          return false;
+      }
+      while(q.empty()==false)
+      {
+          int t= q.front();
+          q.pop();
+          res.push_back(t);
+          for(auto x: adj[t])
+          {
+              indegree[x]--;
+              if(indegree[x]==0)
+              {
+                  q.push(x);
+              }
+          }
+      }
+      if(res.size()==n) return true;
+       return false;
+        
+	}  ///Expected Time Complexity: O(N + P)
+Expected Auxiliary Space: O(N + P)
