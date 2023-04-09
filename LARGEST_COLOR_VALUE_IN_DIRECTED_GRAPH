@@ -1,0 +1,48 @@
+lINK- https://leetcode.com/problems/largest-color-value-in-a-directed-graph/description/
+
+class Solution {
+public:
+    int largestPathValue(string colors, vector<vector<int>>& edges) {
+        vector<vector<int>> count(colors.size(), vector<int>(26));
+        vector<int> adj[colors.size()];
+        vector<int> indegree(colors.size(),0);
+        for(int i=0; i<edges.size(); i++)
+        {
+            adj[edges[i][0]].push_back(edges[i][1]);
+            indegree[edges[i][1]]++;
+        }
+        queue<int> qt;
+     for(int i=0; i<colors.size(); i++)
+     {
+         if(indegree[i]==0)
+         {
+             qt.push(i);
+         }
+     }
+     int answer=0;
+     int seennodes=0;
+     while(qt.empty()==false)
+     {
+        int node= qt.front();
+        qt.pop();
+        count[node][colors[node]-'a']++;
+        answer= max(answer,count[node][colors[node]-'a']);
+        seennodes++;
+        for(auto child:adj[node])
+        {
+            for(int i=0; i<26;i++)
+            {
+                count[child][i]= max(count[node][i],count[child][i]);
+            }
+             indegree[child]--;
+        if(indegree[child]==0)
+        {
+            qt.push(child);
+        }
+        }
+       
+     }
+     return seennodes<colors.size()?-1:answer;
+        
+    }
+};
